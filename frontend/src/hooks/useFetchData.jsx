@@ -27,10 +27,13 @@ const useFetchData = (url) => {
         setLoading(false)
         setError(err.message)
       }
+
     };
 
     fetchData()
   }, [url]);
+
+
 
   return {
     data,loading,error

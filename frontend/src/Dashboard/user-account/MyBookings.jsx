@@ -9,7 +9,7 @@ const MyBookings = () => {
     data: appointments,
     loading,
     error,
-  } = useFetchData(`&{BASE_URL}/users/myappointments/my-appointments`);
+  } = useFetchData(`${BASE_URL}/users/appointments/my-appointments`);
 
   return (
     <div>
