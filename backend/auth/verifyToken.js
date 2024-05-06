@@ -41,7 +41,7 @@ export const restrict= roles=>async(req,res,next)=>{
     let user;
 
     const patient =await User.findById(userId)
-    const doctor =await User.findById(userId)
+    const doctor =await Doctor.findById(userId)
 
     if(patient){
         user=patient
