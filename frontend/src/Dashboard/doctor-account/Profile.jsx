@@ -23,12 +23,48 @@ const Profile = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleFileInputChange=(e)=>{
+  const handleFileInputChange = (e) => {};
+
+  const updateProfileHandler = async (e) => {
+    e.preventDefault();
+  };
+
+  //reusable for adding
+  const addItem=(key,item)=>{
+    setFormData(prevFormData=>({... prevFormData,[key]:[... prevFormData[key],item]}))
   }
 
-  const updateProfileHandler=async e =>{
-    e.preventDefault();
+  //reuse input change
+  const handleReusableInputChangeFunc=(key,index,event)=>{
+    const {name,value} = event.target
+
+    
+    setFormData(prevFormData=>{
+      const updateItems=[... prevFormData[key]]
+
+      updateItems[index][name]=value
+
+      return{
+        ... prevFormData,
+        [key]:updateItems,
+      }
+    })
   }
+
+  const addQualification = (e) => {
+    e.preventDefault();
+    addItem("qualifications", {
+      startingDate: "",
+      endingDate: "",
+      degree: "",
+      university: "",
+    });
+  };
+
+  const handleQualificationChange=(event,index)=>{
+    handleReusableInputChangeFunc('qualifications',index,event)
+  }
+
   return (
     <div className="">
       <h2 className="text-headingColor font-bold text-[24px] leading-9 mb-10">
@@ -54,7 +90,7 @@ const Profile = () => {
             type="email"
             name="email"
             id=""
-            value={formData.name}
+            value={formData.email}
             onChange={handleInputChange}
             placeholder="Email"
             className="form_input"
@@ -142,11 +178,13 @@ const Profile = () => {
                 <div className="grid grid-cols-2 gap-5">
                   <div>
                     <p className="form_label">Starting Date*</p>
+
                     <input
                       type="date"
                       name="startingDate"
                       value={item.startingDate}
                       className="form_input"
+                      onClick={e=>handleQualificationChange(e,index)}
                     />
                   </div>
 
@@ -157,6 +195,8 @@ const Profile = () => {
                       name="endingDate"
                       value={item.endingDate}
                       className="form_input"
+                      onClick={e=>handleQualificationChange(e,index)}
+
                     />
                   </div>
                 </div>
@@ -169,6 +209,7 @@ const Profile = () => {
                       name="degree"
                       value={item.degree}
                       className="form_input"
+                      onClick={e=>handleQualificationChange(e,index)}
                     />
                   </div>
 
@@ -179,6 +220,7 @@ const Profile = () => {
                       name="university"
                       value={item.university}
                       className="form_input"
+                      onClick={e=>handleQualificationChange(e,index)}
                     />
                   </div>
                 </div>
@@ -190,7 +232,7 @@ const Profile = () => {
             </div>
           ))}
 
-          <button className="bg-[#fff] py-2 px-5 rounded text-black">
+          <button onClick={addQualification} className="bg-[#fff] py-2 px-5 rounded text-black">
             Add Qualification
           </button>
         </div>
@@ -353,7 +395,13 @@ const Profile = () => {
         </div>
 
         <div className="mt-7">
-          <button type="submit" onClick={updateProfileHandler} className="bg-primaryColor text-white text-[18px] leading-[30px] w-full py-3 px-4 rounded-lg">Update Profile</button>
+          <button
+            type="submit"
+            onClick={updateProfileHandler}
+            className="bg-primaryColor text-white text-[18px] leading-[30px] w-full py-3 px-4 rounded-lg"
+          >
+            Update Profile
+          </button>
         </div>
       </form>
     </div>
